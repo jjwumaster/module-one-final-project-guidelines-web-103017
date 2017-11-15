@@ -11,13 +11,11 @@ class Station < ActiveRecord::Base
   # def self.most_popular_station
   #   self.all.sort_by{ |s| s.all_trips.length}.last
   # end
-  # 
+  #
   # def self.most_popular_station
   #   Station.find_in_batches do |stations|
   #     export.add_invoices(invoices)
   #   end
   # end
-
-
 
 end

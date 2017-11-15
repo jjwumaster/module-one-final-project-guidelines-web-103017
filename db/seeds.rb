@@ -32,12 +32,13 @@ CSV.foreach("db/201709-citibike-tripdata.csv") do |row|
       duration: row[0],
       start_time: row[1],
       end_time: row[2],
-      start_station_id: row[3], # should we use their ID's?
-      end_station_id: row[7], # should we use their ID's?
+      start_station_id: row[3],
+      end_station_id: row[7],
       city_bike_id: row[11],
       user_type: row[12],
       birth_year: row[13],
       gender: row[14]
+      #trip_concat_id: "#{row[3]} #{row[7]}"
       })
 
     Bike.find_or_create_by({
