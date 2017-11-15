@@ -61,14 +61,17 @@ Trip.where("user_type = 'Customer'").count
 ##### TRIPS
 
 # most common trip
-Trip.group("start_station_id, end_station_id").count.sort_by{|k,v|v}.reverse.first
-# 432-3263
-Trip.group("start_station_id, end_station_id").order("count(*) DESC").first
+Trip.group("unique_trip_id").order("count(*) DESC").count
 
 ##### STATIONS
 
 # most used start station
-Trip.group("start_station_id").order("count(*) DESC").count
+a = Trip.group("start_station_id").order("count(*) DESC").count
 Trip.group("start_station_id").order("count(*) DESC").first.start_station.name
 
+# most used end station
+b = Trip.group("end_station_id").order("count(*) DESC").count
+
 # most used station overall
+c = a.merge(b) { |key, o, n| o + n}
+c.sort_by{|k, v| v}
