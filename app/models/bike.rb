@@ -5,9 +5,6 @@ class Bike < ActiveRecord::Base
 
   def all_stations
     (self.start_stations + self.end_stations).uniq
-
   end
-
-
 
 end
