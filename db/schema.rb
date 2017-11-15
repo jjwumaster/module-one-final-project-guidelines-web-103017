@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171114215925) do
+ActiveRecord::Schema.define(version: 20171115205756) do
 
   create_table "bikes", force: :cascade do |t|
     t.integer "city_bike_id"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20171114215925) do
     t.string   "user_type"
     t.integer  "birth_year"
     t.integer  "gender"
+    t.string   "unique_trip_id"
   end
 
 end
