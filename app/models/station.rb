@@ -1,7 +1,12 @@
 class Station < ActiveRecord::Base
-  # has_many :trips, foreign_key: 'start_station_id', primary_key: 'city_station_id'
-  # has_many :trips, foreign_key: 'end_station_id', primary_key: 'city_station_id'
-
-  has_many :trips, foreign_key: 'start_station_id', primary_key: 'city_station_id'
+  has_many :start_trips, class_name: 'Trip', foreign_key: 'start_station_id', primary_key: 'city_station_id'
+  has_many :end_trips, class_name: 'Trip', foreign_key: 'end_station_id', primary_key: 'city_station_id'
+  # have to come back and make it so that station can be associated with trips either as a start or end station
   has_many :bikes, through: :trips
+
+  def all_trips
+    self.start_trips + self.end_trips
+  end
+
+
 end
