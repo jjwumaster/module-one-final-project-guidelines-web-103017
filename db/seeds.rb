@@ -9,7 +9,7 @@ Bike.destroy_all
 
 i = 0
 
-CSV.foreach("lib/seeds/201709-citibike-tripdata.csv") do |row|
+CSV.foreach("db/201709-citibike-tripdata.csv") do |row|
   if i > 10
     break
   elsif row[0] == 'tripduration'
@@ -18,14 +18,14 @@ CSV.foreach("lib/seeds/201709-citibike-tripdata.csv") do |row|
       name: row[4],
       latitude: row[5],
       longitude: row[6],
-      station_id: row[3]
+      city_station_id: row[3]
     })
 
     Station.find_or_create_by({
       name: row[8],
       latitude: row[9],
       longitude: row[10],
-      station_id: row[7]
+      city_station_id: row[7]
     })
 
     Trip.find_or_create_by({
@@ -34,14 +34,14 @@ CSV.foreach("lib/seeds/201709-citibike-tripdata.csv") do |row|
       end_time: row[2],
       start_station_id: row[3], # should we use their ID's?
       end_station_id: row[7], # should we use their ID's?
-      bike_id: row[11],
+      city_bike_id: row[11],
       user_type: row[12],
       birth_year: row[13],
       gender: row[14]
       })
 
     Bike.find_or_create_by({
-      bike_id: row[11]
+      city_bike_id: row[11]
       })
     i += 1
   end

@@ -6,7 +6,7 @@ class CreateTrips < ActiveRecord::Migration[5.0]
       t.datetime :end_time
       t.integer :start_station_id
       t.integer :end_station_id
-      t.integer :bike_id
+      t.integer :city_bike_id
       t.string :user_type
       t.integer :birth_year
       t.integer :gender
