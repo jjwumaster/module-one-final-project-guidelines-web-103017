@@ -37,8 +37,8 @@ CSV.foreach("db/201709-citibike-tripdata.csv") do |row|
       city_bike_id: row[11],
       user_type: row[12],
       birth_year: row[13],
-      gender: row[14]
-      #trip_concat_id: "#{row[3]} #{row[7]}"
+      gender: row[14],
+      unique_trip_id: "#{row[3]} #{row[7]}"
       })
 
     Bike.find_or_create_by({
