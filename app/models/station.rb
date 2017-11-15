@@ -5,7 +5,7 @@ class Station < ActiveRecord::Base
   has_many :bikes, through: :trips
 
   def all_trips
-    self.start_trips + self.end_trips
+    (self.start_trips + self.end_trips).uniq
   end
 
 
