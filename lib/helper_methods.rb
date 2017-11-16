@@ -1,7 +1,12 @@
 module HelperMethods
 
-  def station_name(id) # CONSIDER MOVING TO A SUPERCLASS
+  def station_name(id)
     Station.where("city_station_id = #{id}")[0].name
+  end
+
+  def exit
+    system "clear" or system "cls"
+    puts "Thanks for coming by! Peace, love, and bicycles" # weird bug not quitting
   end
 
   def perc(x, y)
@@ -15,44 +20,24 @@ module HelperMethods
   def filter_format(filter)
     case filter
     when ''
-
+      "overall "
     when 'gender = 1'
-
+      "for men "
     when 'gender = 2'
-
+      "for women "
     else
-
+      "for non-subscribers "
     end
   end
 
-  def seconds_to_days_hours_mins(s) # FIX # CONSIDER MOVING TO A SUPERCLASS
-    if s / (60 * 60 * 24) > 0
-      days = s / (60 * 60 * 24)
-      s = s % (60 * 60 * 24)
-    else
-      days = 0
-      if s / (60 * 60) > 0
-        hours = s / (60 * 60)
-        s = s % (60 * 60)
-      else
-        hours = 0
-        if s / 60 > 0
-          mins = s / 60
-          secs = s % 60
-        else
-          mins = 0
-          if s > 0
-            secs = s
-          else
-            secs = 0
-          end
-        end
-      end
-    end
-    "#{days} days, #{hours} hours, #{mins} minutes, #{secs} seconds"
+  def seconds_to_days_hours_mins(t)
+    mm, ss = t.divmod(60)
+    hh, mm = mm.divmod(60)
+    dd, hh = hh.divmod(24)
+    "%d days, %d hours, %d minutes and %d seconds" % [dd, hh, mm, ss]
   end
 
-  def parser(array) # CONSIDER MOVING TO A SUPERCLASS
+  def station_parser(array)
     array.each_with_index do |arr, i|
       sst = arr[0].split(' ')[0]
       est = arr[0].split(' ')[1]
@@ -61,11 +46,18 @@ module HelperMethods
     end
   end
 
+  def trip_parser(objects) # yes we're doing this for trips
+    array.each_with_index do |obj, i|
+      duration = obj.duration
+      puts "#{i + 1}. " ## NEED TO FIX THIS
+    end
+  end
+
   def late_fee(seconds)
     minutes = seconds / 60.0
     charged_minutes = minutes - 45.0
     ride_cost = charged_minutes * 2.50
-    ride_cost
+    "$#{format_comma(ride_cost.round(2))}"
   end
 
 end

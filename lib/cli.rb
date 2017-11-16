@@ -53,8 +53,7 @@ class CitiBike
     when "4"
       user_options
     when "5"
-      system "clear" or system "cls"
-      puts "Thanks for coming by! Peace, love, and bicycles"
+      exit
     else
       puts "Invalid input"
       first_display_options
@@ -90,7 +89,7 @@ class CitiBike
     puts "1. Female subscribers"
     puts "2. Male subscribers"
     puts "3. Non-subscribers"
-    puts "4. Nah, I'm good"
+    puts "4. I'm good, take me back"
     # add age group information
     input = gets.chomp
     case input
@@ -101,7 +100,7 @@ class CitiBike
     when "3"
       "user_type = 'Customer'"
     when "4"
-      "exit"
+      first_display_options
     else
       puts "Invalid input"
       demo_filter
