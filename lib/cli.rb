@@ -1,6 +1,8 @@
 class CitiBike
 
   # top level stats in each category
+  include StationMethods
+  include BikeMethods
 
   def start
     first_display_options
@@ -31,27 +33,7 @@ class CitiBike
     end
   end
 
-  def station_options
-    puts "What are you interested in?"
-    puts "1. Most popular starting station"
-    puts "2. Most popular ending station"
-    puts "3. Most popular station overall"
-    puts "4. Back"
-    input = gets.chomp
-    case input
-    when "1"
-      station_options
-    when "2"
-      trip_options
-    when "3"
-      bike_options
-    when "4"
-      first_display_options
-    else
-      puts "Invalid input"
-      station_options
-    end
-  end
+
 
   def trip_options
     puts "What are you interested in?"
@@ -178,24 +160,7 @@ class CitiBike
   end
 
 
-  def bike_options
-    puts "What are you interested in?"
-    puts "1. Bike with the most trips"
-    puts "2. Bike with the most riding time"
-    puts "3. Back"
-    input = gets.chomp
-    case input
-    when "1"
-      station_options
-    when "2"
-      trip_options
-    when "3"
-      first_display_options
-    else
-      puts "Invalid input"
-      bike_options
-    end
-  end
+
 
   def user_options
     puts "What are you interested in?"
