@@ -57,8 +57,12 @@ Trip.where("user_type = 'Customer'").count
 
 ##### TRIPS
 
+# DURATION OF MOST POPULAR TRIPS
+
 # most common trip
 Trip.where('').group("unique_trip_id").order("count(*) DESC").count.first(5)
+
+# subscriber vs. customer
 
 ##### STATIONS
 
