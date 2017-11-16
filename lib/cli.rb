@@ -130,7 +130,18 @@ class CitiBike
     end
   end
 
-  def seconds_to_days_hours_mins(s) # CONSIDER MOVING TO A SUPERCLASS
+  def longest_trip(filter = ‘’)
+      s = Trip.where(filter).maximum(“duration”).truncate
+      puts seconds_to_days_hours_mins(s)
+      new_filter = demo_filter
+      if new_filter == “exit”
+        first_display_options
+      else
+        longest_trip(new_filter)
+      end
+  end
+
+  def seconds_to_days_hours_mins(s) # FIX # CONSIDER MOVING TO A SUPERCLASS
     if s / (60 * 60 * 24) > 0
       days = s / (60 * 60 * 24)
       s = s % (60 * 60 * 24)
@@ -166,8 +177,6 @@ class CitiBike
     end
   end
 
-  def longest_trip
-  end
 
   def bike_options
     puts "What are you interested in?"
