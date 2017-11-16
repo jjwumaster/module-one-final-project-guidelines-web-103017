@@ -28,7 +28,7 @@ class CitiBike
     puts ""
     puts banner
     puts ""
-    puts Paint["Welcome to CitiBike Analytics!)", :red, :bright]
+    puts Paint["Welcome to CitiBike Analytics!", :red, :bright]
     puts "There were #{format_comma(t_trips)} rides in the month of September on #{format_comma(uniq_bikes)} unique bikes!"
     puts ""
     puts "#{perc(sub_trips, t_trips)}% of rides were taken by loyal subscribers"
@@ -41,9 +41,8 @@ class CitiBike
     puts ""
     puts "1. Stations (...what's the most popular station?)"
     puts "2. Trips (...what's the most popular trip?)"
-    puts "3. Bikes (...which bike got ridden the most?)"
-    puts "4. User Demographics (...)" # Think about taking this out
-    puts "5. Exit"
+    puts "3. The village bicycle (...the bike with the most trips taken)"
+    puts "4. Exit"
     input = gets.chomp
     case input
     when "1"
@@ -51,18 +50,14 @@ class CitiBike
     when "2"
       trip_options
     when "3"
-      bike_options
+      bike_most_trips
     when "4"
-      user_options
-    when "5"
       exit
     else
       puts "Invalid input"
       first_display_options
     end
   end
-
-
 
   def demo_filter
     # take the prior level's sql query and add a 'where' filter to it
@@ -82,8 +77,9 @@ class CitiBike
     when "3"
       "user_type = 'Customer'"
     when "4"
-      first_display_options
+      "exit"
     else
+      system "clear" or system "cls"
       puts "Invalid input"
       demo_filter
     end

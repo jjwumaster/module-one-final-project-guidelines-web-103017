@@ -14,20 +14,12 @@ module TripMethods
     input = gets.chomp
     case input
     when "1"
-      system "clear" or system "cls"
-      puts "The most popular trips are:"
-      # do we want people to be able to double-click on those trips? Prob not
-      most_popular_trip
-      # demo_filter
+      most_popular_trips
     when "2"
-      system "clear" or system "cls"
-      puts "The average trip is:"
       average_trip_duration
     when "3"
-      system "clear" or system "cls"
-      longest_trip
+      longest_trips
     when "4"
-      system "clear" or system "cls"
       first_display_options
     when "5"
       exit
@@ -37,17 +29,18 @@ module TripMethods
     end
   end
 
-  def most_popular_trip(filter = '')
+  def most_popular_trips(filter = '')
     system "clear" or system "cls"
     ff = filter_format(filter)
     puts ""
     puts Paint["The most popular trips #{ff}are:", :red, :bright]
     puts ""
     m = Trip.where(filter).group("unique_trip_id").order("count(*) DESC").count.first(5)
+    printf("%2s  %-30s %-10s\n", '', "Start Station", "End Station")
     station_parser(m)
     puts ""
     new_filter = demo_filter
-    new_filter == "exit" ? first_display_options : most_popular_trip(new_filter)
+    new_filter == "exit" ? trip_options : most_popular_trips(new_filter)
   end
 
   def average_trip_duration(filter = '')
@@ -60,22 +53,30 @@ module TripMethods
     puts seconds_to_days_hours_mins(s)
     puts ""
     new_filter = demo_filter
-    new_filter == "exit" ? first_display_options : average_trip_duration(new_filter)
+    new_filter == "exit" ? trip_options : average_trip_duration(new_filter)
   end
 
-  def longest_trip(filter = '') ## put out 10 longest trips
+  def longest_trips(filter = '') ## put out 10 longest trips
     system "clear" or system "cls"
     ff = filter_format(filter)
     puts ""
     puts Paint["The longest trips #{ff}were:", :red, :bright]
     puts ""
-    s = Trip.where(filter).order("duration").limit(10) ### order by and return top 10
-    trip_parser(s)
-    puts seconds_to_days_hours_mins(s)
-    #puts late_fee(s)
+    s = Trip.where(filter).order("duration DESC").limit(5) ### order by and return top 5
+    # show all the trip start / stops
+    printf("%2s  %-30s %-30s %-50s %-10s\n", '', "Start Station", "End Station", "Duration", "Late Fee")
+    s.each_with_index do |obj, i|
+      sst = obj.start_station_id
+      est = obj.end_station_id
+      sst_name = Station.where("city_station_id = #{sst}")[0].name
+      est_name = Station.where("city_station_id = #{est}")[0].name
+      dur = obj.duration
+      # puts "#{i + 1}. #{sst_name} to #{est_name}: #{seconds_to_days_hours_mins(dur)}, #{late_fee(dur)}"
+      printf("%2s. %-30s %-30s %-50s %-10s\n", i + 1, sst_name, est_name, seconds_to_days_hours_mins(dur), late_fee(dur))
+    end
     puts ""
     new_filter = demo_filter
-    new_filter == "exit" ? first_display_options : longest_trip(new_filter)
+    new_filter == "exit" ? trip_options : longest_trips(new_filter)
   end
 
 end

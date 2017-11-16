@@ -13,8 +13,8 @@ module HelperMethods
     ( (x.to_f / y.to_f) * 100 ).round(1)
   end
 
-  def format_comma(number)
-    number.to_s.chars.to_a.reverse.each_slice(3).map(&:join).join(",").reverse
+  def format_comma(number, delimiter = ',')
+    number.to_s.reverse.gsub(%r{([0-9]{3}(?=([0-9])))}, "\\1#{delimiter}").reverse
   end
 
   def filter_format(filter)
@@ -42,16 +42,17 @@ module HelperMethods
       sst = arr[0].split(' ')[0]
       est = arr[0].split(' ')[1]
       t = arr[1]
-      puts "#{i + 1}. #{station_name(sst)} to #{station_name(est)}: #{t} trips"
+      printf("%2s. %-30s %-10s\n", i + 1, station_name(sst), station_name(est))
+
     end
   end
 
-  def trip_parser(objects) # yes we're doing this for trips
-    array.each_with_index do |obj, i|
-      duration = obj.duration
-      puts "#{i + 1}. " ## NEED TO FIX THIS
-    end
-  end
+  # def trip_parser(objects) # yes we're doing this for trips
+  #   objects.each_with_index do |obj, i|
+  #     duration = obj.duration
+  #     puts "#{i + 1}. " ## NEED TO FIX THIS
+  #   end
+  # end
 
   def late_fee(seconds)
     minutes = seconds / 60.0
