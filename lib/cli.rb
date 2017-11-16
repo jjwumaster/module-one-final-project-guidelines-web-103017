@@ -3,6 +3,8 @@ require 'paint'
 class CitiBike
 
   # top level stats in each category
+  include StationMethods
+  include BikeMethods
 
   include HelperMethods
   include TripMethods
@@ -60,27 +62,7 @@ class CitiBike
     end
   end
 
-  def station_options
-    puts "What are you interested in?"
-    puts "1. Most popular starting station"
-    puts "2. Most popular ending station"
-    puts "3. Most popular station overall"
-    puts "4. Back"
-    input = gets.chomp
-    case input
-    when "1"
-      station_options
-    when "2"
-      trip_options
-    when "3"
-      bike_options
-    when "4"
-      first_display_options
-    else
-      puts "Invalid input"
-      station_options
-    end
-  end
+
 
   def demo_filter
     # take the prior level's sql query and add a 'where' filter to it
@@ -107,6 +89,7 @@ class CitiBike
     end
   end
 
+<<<<<<< HEAD
   def bike_options
     puts "What are you interested in?"
     puts "1. Bike with the most trips"
@@ -125,6 +108,79 @@ class CitiBike
       bike_options
     end
   end
+=======
+  def most_popular_trip(filter = '')
+    m = Trip.where(filter).group("unique_trip_id").order("count(*) DESC").count.first(5)
+    parser(m)
+    new_filter = demo_filter
+    if new_filter == "exit"
+      first_display_options
+    else
+      most_popular_trip(new_filter)
+    end
+  end
+
+  def average_trip_duration(filter = '')
+    s = Trip.where(filter).average("duration").truncate
+    puts seconds_to_days_hours_mins(s)
+    new_filter = demo_filter
+    if new_filter == "exit"
+      first_display_options
+    else
+      average_trip_duration(new_filter)
+    end
+  end
+
+  def longest_trip(filter = ‘’)
+      s = Trip.where(filter).maximum(“duration”).truncate
+      puts seconds_to_days_hours_mins(s)
+      new_filter = demo_filter
+      if new_filter == “exit”
+        first_display_options
+      else
+        longest_trip(new_filter)
+      end
+  end
+
+  def seconds_to_days_hours_mins(s) # FIX # CONSIDER MOVING TO A SUPERCLASS
+    if s / (60 * 60 * 24) > 0
+      days = s / (60 * 60 * 24)
+      s = s % (60 * 60 * 24)
+    else
+      days = 0
+      if s / (60 * 60) > 0
+        hours = s / (60 * 60)
+        s = s % (60 * 60)
+      else
+        hours = 0
+        if s / 60 > 0
+          mins = s / 60
+          secs = s % 60
+        else
+          mins = 0
+          if s > 0
+            secs = s
+          else
+            secs = 0
+          end
+        end
+      end
+    end
+    "#{days} days, #{hours} hours, #{mins} minutes, #{secs} seconds"
+  end
+
+  def parser(array) # CONSIDER MOVING TO A SUPERCLASS
+    array.each_with_index do |arr, i|
+      sst = arr[0].split(' ')[0]
+      est = arr[0].split(' ')[1]
+      t = arr[1]
+      puts "#{i + 1}. #{station_name(sst)} to #{station_name(est)}: #{t} trips"
+    end
+  end
+
+
+
+>>>>>>> stations
 
   def user_options
     puts "What are you interested in?"
