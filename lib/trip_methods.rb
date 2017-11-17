@@ -35,7 +35,7 @@ module TripMethods
     puts ""
     puts Paint["The most popular trips #{ff}are:", :red, :bright]
     puts ""
-    m = Trip.where(filter).group("unique_trip_id").order("count(*) DESC").count.first(5)
+    m = Trip.where(filter).group("unique_trip_id").order("count(*) DESC").count.first(10)
     printf("%2s  %-30s %-10s\n", '', "Start Station", "End Station")
     station_parser(m)
     puts ""
@@ -62,7 +62,7 @@ module TripMethods
     puts ""
     puts Paint["The longest trips #{ff}were:", :red, :bright]
     puts ""
-    s = Trip.where(filter).order("duration DESC").limit(5) ### order by and return top 5
+    s = Trip.where(filter).order("duration DESC").limit(10) ### order by and return top 5
     # show all the trip start / stops
     printf("%2s  %-30s %-30s %-50s %-10s\n", '', "Start Station", "End Station", "Duration", "Late Fee")
     s.each_with_index do |obj, i|

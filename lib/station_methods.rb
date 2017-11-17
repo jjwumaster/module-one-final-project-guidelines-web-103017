@@ -32,7 +32,7 @@ module StationMethods
     puts ""
     puts Paint["The most popular starting stations #{ff}are:", :red, :bright]
     puts ""
-    top_five = Trip.group("start_station_id").having(filter).order("count(*) DESC").first(5) # changed to having
+    top_five = Trip.group("start_station_id").having(filter).order("count(*) DESC").first(10) # changed to having
 
     printf("%2s  %-30s %-4s\n", '', "Start Station", "Trip Starts")
     top_five.each_with_index do |obj, i|
@@ -52,7 +52,7 @@ module StationMethods
     puts ""
     puts Paint["The most popular ending stations #{ff}are:", :red, :bright]
     puts ""
-    bottom_five = Trip.group("end_station_id").having(filter).order("count(*) DESC").first(5)
+    bottom_five = Trip.group("end_station_id").having(filter).order("count(*) DESC").first(10)
 
     printf("%2s  %-35s %-4s\n", '', "End Station", "Trip Starts")
     bottom_five.each_with_index do |obj, i|
@@ -72,17 +72,17 @@ module StationMethods
     puts ""
     puts Paint["The most popular stations #{ff}are:", :red, :bright]
     puts ""
-    a = Trip.group("start_station_id").having(filter).order("count(*) DESC").count
-    b = Trip.group("end_station_id").having(filter).order("count(*) DESC").count
+    a = Trip.group("start_station_id").having(filter).count #.order("count(*) DESC").count
+    b = Trip.group("end_station_id").having(filter).count #.order("count(*) DESC").count
     c = a.merge(b) { |key, o, n| o + n} # USE THIS
 
-    top_five = c.sort_by{|k, v| v}[-5..-1]
+    top_five = c.sort_by{|k, v| v}[-10..-1]
     printf("%2s  %-50s %-4s\n", '', "Station Name", "Trip Starts")
     top_five.reverse.each_with_index do |obj, i|
       sname = station_name(obj[0])
-      trip_starts = Trip.where("start_station_id = #{obj[0]}").count
-      trip_ends = Trip.where("end_station_id = #{obj[0]}").count
-      printf("%2s. %-50s %-4s\n", i + 1, sname, trip_starts + trip_ends)
+      # trip_starts = Trip.where("start_station_id = #{obj[0]}").count
+      # trip_ends = Trip.where("end_station_id = #{obj[0]}").count
+      printf("%2s. %-50s %-4s\n", i + 1, sname, obj[1]) #trip_starts + trip_ends
     end
 
     puts ""

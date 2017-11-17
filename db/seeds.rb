@@ -10,7 +10,7 @@ Bike.destroy_all
 i = 0
 
 CSV.foreach("db/201709-citibike-tripdata.csv") do |row|
-  if i > 10000
+  if i > 150000
     break
   elsif row[0] == 'tripduration'
   elsif
